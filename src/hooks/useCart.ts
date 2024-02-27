@@ -2,7 +2,7 @@ import Joi from "joi";
 import { useAppDispatch, useAppSelector } from "./hook";
 import { joiMessages, joiResolver } from "@/helpers/joi";
 import { useForm } from "react-hook-form";
-import { CartInfoType, CartProductType } from "@/types/cart";
+import { CartInfoType, CartProductType, CartType } from "@/types/cart";
 import { addProduct, removeCart, removeProduct, updateQuantityProduct } from "@/store/slices/CartSlice";
 import { ProductType } from "@/types/product";
 import { useState } from "react";
@@ -15,7 +15,7 @@ export type useCartProps = {
     product?: ProductType;
     info?: CartInfoType;
 }
-export const useCart = ({product, info}: useCartProps) => {
+export const useCart = ({product}: useCartProps) => {
   const dispatch = useAppDispatch();
   const { cart } = useAppSelector((state) => state.cart);
   const {
@@ -53,7 +53,7 @@ export const useCart = ({product, info}: useCartProps) => {
     dispatch(updateQuantityProduct({ id, quantity }));
   }
 
-  const handleCheckout = async (cart) => {
+  const handleCheckout = async (cart: CartType) => {
     try {
       setLoading(true);
       const response = await fetch("https://shopping-api-nine.vercel.app/checkout", {

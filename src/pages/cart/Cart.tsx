@@ -26,9 +26,6 @@ export const Cart = () => {
     register,
     handleSubmit,
     formState: { errors = {} as Record<string, any> },
-    setValue,
-    getValues,
-    control,
   } = useForm({
     resolver: async (data) => {
       return joiResolver(schema, data);
