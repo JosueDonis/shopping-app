@@ -1,0 +1,46 @@
+import { formatMoney } from "@/helpers";
+import { CartProductType } from "@/types/cart";
+import { X } from "lucide-react";
+import React from "react";
+import Input from "../atoms/Input";
+
+export type CartCardProps = CartProductType;
+export const CartCard: React.FC<
+  CartCardProps & {
+    onRemove: (id?: string) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>, id?: string) => void;
+  }
+> = ({ id, name, price, image, quantity, onRemove, onChange }) => {
+  return (
+    <div key={id} className="flex gap-4 border-b border-base-200">
+      <figure className="md:max-w-[200px] max-w-[80px] p-4 relative">
+        <img
+          className="w-full h-full aspect-auto object-cover"
+          src={image}
+          alt={name}
+        />
+        <button
+          className="btn btn-cancel btn-sm btn-circle absolute top-0 right-0"
+          onClick={() => onRemove(id)}
+        >
+          <X size={20} />
+        </button>
+      </figure>
+      <div className="flex flex-col w-full gap-2">
+        <div className="flex md:flex-row flex-col md:items-center items-end  justify-between md:text-xl text-base font-bold gap-2">
+          <h2 className="">{name}</h2>
+          <span>{formatMoney(price)}</span>
+        </div>
+        <Input
+          class="md:w-[100px] w-[80px]"
+          name="quantity"
+          min={1}
+          value={quantity}
+          onChange={(e) => {
+            onChange(e, id);
+          }}
+        />
+      </div>
+    </div>
+  );
+};
