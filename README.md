@@ -1,31 +1,53 @@
-# React + TypeScript + Vite
+# shopping app 🛍️
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+shopping app: Tienda online
 
-Currently, two official plugins are available:
+## Table of contents  📌
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Branches](#branches-)
+- [Prerequisites](#prerequisites-)
+- [Installation](#installation-)
+- [Available scripts](#available-scripts-)
+- [VS Code extensions](#vs-code-extensions-)
 
-## Expanding the ESLint configuration
+## Branches
+|Branch|URL  |
+|--|--|
+| Main | https://shopping-app.vercel.app/ |
+| Development| 👇  |
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Prerequisites 🌱
 
-- Configure the top-level `parserOptions` property like this:
+ - [Node v18.16.0](https://nodejs.org/en/) 
+ - [Daisyui](https://daisyui.com/)
+ - [Tailwindcss](https://tailwindcss.com/docs/installation)
+ - [Capacitorjs](https://capacitorjs.com/docs/getting-started)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+##  Installation 🤖
+
+```bash
+
+> git clone https://github.com/JosueDonis/shopping-app
+
+> cd shopping-app
+
+> npm install
+
+> npm run dev
+
 ```
+  
+##  Available scripts 🐍
+|Script|Description  |
+|--|--|
+| npm run dev | Run project in port 5173 |
+| npm run build| Generate files static builds by default `dist` |
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
-# shopping-app
+
+##  VS Code extensions 🧩
+
+> A must have collection of VS Code extensions for a better development experience and a healthy codebase.
+
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+- [Tailwind CSS IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
