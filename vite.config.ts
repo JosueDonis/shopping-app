@@ -8,8 +8,8 @@ import legacy from '@vitejs/plugin-legacy'
 export default defineConfig({
   plugins: [
     react(), 
-    vercel(), 
     legacy(),
+    vercel(), 
   ],
   resolve: {
     alias: {
