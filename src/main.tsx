@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import { store } from "@store/store";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
+  <BrowserRouter basename="/">
     <React.StrictMode>
       <Provider store={store}>
         <ThemeProvider>
