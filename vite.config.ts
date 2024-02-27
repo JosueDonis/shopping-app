@@ -11,6 +11,7 @@ export default defineConfig({
     // legacy(),
     // vercel(), 
   ],
+  appType: "spa",
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
