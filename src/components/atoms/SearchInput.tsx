@@ -13,7 +13,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   type = "search",
 }) => {
   return (
-    <label className="input input-bordered rounded-full flex items-center gap-2">
+    <label className="input input-bordered rounded-full flex items-center gap-2 w-full">
       <Search />
       <input
         type={type}

@@ -1,3 +1,6 @@
+import { useForm } from "react-hook-form";
+
+
 export type InputProps = {
   label?: string;
   placeholder?: string;
@@ -9,7 +12,7 @@ export type InputProps = {
   min?: number;
   max?: number;
   required?: boolean;
-  register?: any;
+  register?: ReturnType<typeof useForm>['register'];
   maxLenght?: number;
   class?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -48,21 +51,15 @@ export const Input: React.FC<InputProps> = ({
         />
       ) : (
         <input
+          {...register(name as string, {required})}
+          className="input input-bordered w-full"
           type={type}
           placeholder={placeholder}
-          className="input input-bordered w-full"
-          onChange={onChange}
-          name={name}
-          value={value}
-          min={min}
-          max={max}
-          required={required}
-          {...register(name as string, { required })}
         />
       )}
-      <div className="label">
-        {errors?.[name as string] && <span className="label-text-alt text-red-600">{errors[name as string]?.message}</span>}
-      </div>
+            <div className="label">
+              {errors?.[name as string] && <span className="label-text-alt text-red-600">{errors[name as string]?.message}</span>}
+            </div>
     </label>
   );
 };

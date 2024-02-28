@@ -1,6 +1,11 @@
+import FilterModal from './FilterModal';
 import CartList from './CartList';
-export * from './Navbar';
-export * from './ProductDetail';
+import Navbar from './Navbar';
+import ProductDetail from './ProductDetail';
+
 export {
-    CartList
+    CartList,
+    FilterModal,
+    Navbar,
+    ProductDetail
 }

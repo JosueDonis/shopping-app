@@ -50,7 +50,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
     </div>
   ) : (
     <div className="card lg:card-side  w-full bg-base-100 shadow border border-base-300 rounded-xl">
-      <figure className="max-w-[400px] h-auto">
+      <figure className="max-w-[400px] h-full">
         <img
           className="w-full h-full object-cover aspect-square"
           src={product?.image || "https://via.placeholder.com/300"}

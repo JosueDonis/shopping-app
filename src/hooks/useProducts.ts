@@ -1,7 +1,7 @@
 import { initial } from "@/store/slices/ProductSlice";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "./hook";
-import { ProductType } from "@/types/product";
+import { FilterType, ProductType } from "@/types/product";
 import { useParams } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -13,6 +13,12 @@ export const useProducts = () => {
   const [search, setSearch] = useState<string>(query || "");
   const [product, setProduct] = useState<ProductType | undefined>(undefined);
   const { products } = useAppSelector((state) => state.products);
+  const [filteredProducts, setFilteredProducts] = useState<ProductType[] | undefined>(products);
+  const [filters, setFilters] = useState<FilterType>({
+    name: "",
+    category: "",
+  });
+  const [sortPrice, setSortPrice] = useState<string>("ASC");
   const params = useParams<{ id: string }>();
   const id = params.id || null;
  
@@ -28,7 +34,8 @@ export const useProducts = () => {
         "https://shopping-api-nine.vercel.app/products"
       );
       const data = await response.json();
-      dispatch(initial(data));
+      dispatch(initial(onSortPrice(data)));
+      setFilteredProducts(onSortPrice(data));
     } catch (error) {
       setError(true);
     } finally {
@@ -66,7 +73,46 @@ export const useProducts = () => {
   const onChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     navigate(e.target.value !== "" ? `?search=${decodeURIComponent(e.target.value)}` : '')
+    const newData = Object.entries(filters).some((f) => f[1] !== "") ? filterByValue() : products;
+    const data = e.target.value !== "" ? filterProducts(newData, e.target.value): products;
+    setFilteredProducts(data);
   };
+
+  const filterByValue = (products?: ProductType[]) => {
+    return products?.filter((product: any) => {
+      return Object.keys(filters).every((key) => {
+        return String(product[key] || "")
+          .toLowerCase()
+          .includes(String(filters[key]).toLowerCase());
+      });
+    });
+  }
+  const onApplyFilter = () => {
+    const newData = Object.entries(filters).some((f) => f[1] !== "") ? filterByValue(onSortPrice(filteredProducts!)) : onSortPrice(products!);
+    const data = search !== "" ? filterProducts(newData, search): newData;
+    setFilteredProducts(data);
+  }
+
+  const onSortPrice = (products: ProductType[]) => {
+    const data = [...products].sort((a, b) => {
+      if (sortPrice === "ASC") {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
+    return data;
+  }
+  
+
+  const removeFilters = () => {
+    setFilters({
+      name: "",
+      category: "",
+    });
+    const data = search !== "" ? filterProducts(products, search): products;
+    setFilteredProducts(data);
+  }
 
   useEffect(() => {
     !id && getProducts();
@@ -85,5 +131,12 @@ export const useProducts = () => {
     filterProducts,
     product,
     onChangeSearch,
+    filteredProducts,
+    filters,
+    onApplyFilter,
+    removeFilters,
+    setFilters,
+    sortPrice,
+    setSortPrice
   };
 };

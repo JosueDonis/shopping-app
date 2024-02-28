@@ -18,7 +18,7 @@ export const ShoppingCartButton = () => {
         className="mt-3 z-[1] card card-compact dropdown-content w-52 bg-base-100 shadow"
       >
         <div className="card-body border">
-          <span className="font-bold text-lg">{cart?.products?.length} Items</span>
+          <span className="font-bold text-lg">{cart?.products?.length} {cart?.products?.length === 1 ? 'producto' : 'productos'}</span>
           <span className="text-light">Subtotal: {formatMoney(getCartTotal())}</span>
           <div className="card-actions">
             <NavLink className="btn btn-primary btn-block" to="/cart">

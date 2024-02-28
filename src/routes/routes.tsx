@@ -1,15 +1,40 @@
+import { ShoppingApp } from "@/components/templates";
 import { Cart, Login, Product, Products } from "@/pages";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { ClerkProvider } from "@clerk/clerk-react";
+import { esES } from "@clerk/localizations";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 
 export const RoutesCustom = () => {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <ShoppingApp />,
+      children: [
+        { path: "", element: <Products /> },
+        { path: "/cart", element: <Cart /> },
+        { path: "/products/:id", element: <Product /> },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: '*',
+      element: <Navigate to="/login"  />,
+    },
+  ]);
   return (
-    <Routes>
-      <Route path="/" element={<Products />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/products/:id" element={<Product />} />
-      <Route path="/Login" element={<Login />} />
-      <Route path="*" element={<Navigate to="/" />} />
-    </Routes>
+    <ClerkProvider
+      localization={esES}
+      publishableKey="pk_test_dG9waWNhbC1zd2luZS01OS5jbGVyay5hY2NvdW50cy5kZXYk"
+    >
+      <RouterProvider router={router} />
+    </ClerkProvider>
   );
 };
 

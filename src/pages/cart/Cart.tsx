@@ -25,12 +25,13 @@ export const Cart = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors = {} as Record<string, any> },
+    formState: { errors },
   } = useForm({
     resolver: async (data) => {
       return joiResolver(schema, data);
     },
   });
+  
   const navigate = useNavigate();
 
   const onDelete = (id?: string) => {

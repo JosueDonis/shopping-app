@@ -43,6 +43,9 @@ export default {
         ...require("daisyui/src/theming/themes")["black"],
         primary: "#04D9B2",
         secondary: "#2D4BA6",
+        "--rounded-box": "1rem", // border radius rounded-box utility class, used in card and other large boxes
+        "--rounded-btn": "0.5rem", // border radius rounded-btn utility class, used in buttons and similar element
+        "--rounded-badge": "1.9rem", // border radius rounded-badge utility class, used in badges and similar
       }
     }], // false: only light + dark | true: all themes | array: specific themes like this ["light", "dark", "cupcake"]
     // darkTheme: "black", // name of one of the included themes for dark mode
