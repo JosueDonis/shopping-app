@@ -27,7 +27,8 @@ const schema = Joi.object({
         name: Joi.string().label("Nombre"),
         price: Joi.number().label("Precio"),
         description: Joi.string().label("Descripción"),
-        productId: Joi.string().label("productId"),
+        productId: Joi.string().label("id del producto"),
+        category: Joi.string().label("Categoria"),
       })
     )
     .required()
@@ -89,6 +90,7 @@ export const Cart = () => {
     await handleCheckout(cart);
     navigate("/");
   };
+
 
   return (
     <div className="flex flex-col gap-10">
