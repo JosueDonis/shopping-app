@@ -8,13 +8,12 @@ export const Products = () => {
   const {
     error,
     loading,
-    filteredProducts,
+    products,
     search,
     onChangeSearch,
     removeFilters,
     filters,
     setFilters,
-    onApplyFilter,
     sortPrice,
     setSortPrice,
   } = useProducts();
@@ -43,19 +42,19 @@ export const Products = () => {
         >
           <SlidersHorizontal className="text-white" />
         </button>
-        
       </div>
       <ProductsList
         error={error}
         loading={loading}
         search={search}
-        filteredProducts={filteredProducts}
+        products={products}
+        filters={filters}
+        sortPrice={sortPrice}
       />
       <FilterModal
         id="filterModal"
         filters={filters}
         setFilters={setFilters}
-        handleApplyFilters={onApplyFilter}
         handleRemoveFilters={removeFilters}
         sortPrice={sortPrice}
         setSortPrice={setSortPrice}

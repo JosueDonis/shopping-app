@@ -1,6 +1,3 @@
-import { useForm } from "react-hook-form";
-
-
 export type InputProps = {
   label?: string;
   placeholder?: string;
@@ -8,11 +5,11 @@ export type InputProps = {
   name?: string;
   id?: string;
   value?: string | number;
-  errors?: Record<string, any>;
+  error?: string;
   min?: number;
   max?: number;
   required?: boolean;
-  register?: ReturnType<typeof useForm>['register'];
+  register?: any;
   maxLenght?: number;
   class?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -24,8 +21,8 @@ export const Input: React.FC<InputProps> = ({
   type,
   name,
   value,
-  onChange,
-  errors,
+  onChange: handleChange,
+  error,
   min,
   max,
   required,
@@ -33,6 +30,7 @@ export const Input: React.FC<InputProps> = ({
   maxLenght,
   class: className,
 }) => {
+  const { onChange } = register(name as string, { required });
   return (
     <label className={`form-control w-full ${className}`}>
       {label && <span className="label">{label}</span>}
@@ -41,7 +39,7 @@ export const Input: React.FC<InputProps> = ({
           type={type}
           placeholder={placeholder}
           className="input input-bordered w-full"
-          onChange={onChange}
+          onChange={handleChange}
           name={name}
           value={value}
           min={min}
@@ -51,15 +49,21 @@ export const Input: React.FC<InputProps> = ({
         />
       ) : (
         <input
-          {...register(name as string, {required})}
+          {...register(name as string, { required })}
           className="input input-bordered w-full"
           type={type}
           placeholder={placeholder}
+          onChange={(e) => {
+            onChange(e);
+            if (handleChange) {
+              handleChange(e);
+            }
+          }}
         />
       )}
-            <div className="label">
-              {errors?.[name as string] && <span className="label-text-alt text-red-600">{errors[name as string]?.message}</span>}
-            </div>
+      <div className="label">
+        {error && <span className="label-text-alt text-red-600">{error}</span>}
+      </div>
     </label>
   );
 };

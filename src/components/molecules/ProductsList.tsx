@@ -1,15 +1,17 @@
-import { ProductType } from "@/types/product";
+import { FilterType, ProductType } from "@/types/product";
 import { ProductCard } from "./ProductCard";
 import { GalleryVerticalEnd } from "lucide-react";
 import FilterProducts from "./FilterProducts";
 
 export type ProductCardProps = {
-  products?: ProductType[];
   class?: string;
   error?: boolean;
   loading?: boolean;
   search?: string;
+  products?: ProductType[];
   filteredProducts?: ProductType[];
+  sortPrice?: string;
+  filters?: FilterType;
 };
 
 export const ProductsList: React.FC<ProductCardProps> = ({
@@ -17,7 +19,9 @@ export const ProductsList: React.FC<ProductCardProps> = ({
   error,
   loading,
   search,
-  filteredProducts,
+  products,
+  filters,
+  sortPrice,
 }) => {
   return (
     <section
@@ -27,9 +31,14 @@ export const ProductsList: React.FC<ProductCardProps> = ({
         Array.from({ length: 10 }).map((_, index) => (
           <ProductCard key={index} loading />
         ))
-      ) : (
-        <FilterProducts search={search} filteredProducts={filteredProducts} />
-      )}
+      ) : !loading && !error && products?.length ? (
+        <FilterProducts
+          search={search}
+          products={products}
+          sortPrice={sortPrice}
+          filters={filters}
+        />
+      ) : null}
       {!loading && error && (
         <div className="flex h-[60vh] col-span-3 flex-col p-8 gap-10 bg-base-100 shadow border border-base-300 rounded-xl items-center justify-center">
           <img
@@ -44,7 +53,7 @@ export const ProductsList: React.FC<ProductCardProps> = ({
           </div>
         </div>
       )}
-      {!loading && !error && !filteredProducts?.length && search === "" ? (
+      {!loading && !error && !products?.length ? (
         <div className="flex col-span-3 h-[60vh] flex-col p-8 gap-10 bg-base-100 shadow border border-base-300 rounded-xl items-center justify-center">
           <GalleryVerticalEnd size={80} />
           <p className="text-xl font-bold">No hay productos disponibles</p>

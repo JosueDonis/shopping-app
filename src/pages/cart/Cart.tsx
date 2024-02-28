@@ -3,10 +3,11 @@ import Input from "@/components/atoms/Input";
 import { Back } from "@/components/molecules";
 import { CartList } from "@/components/organisms";
 import { formatMoney } from "@/helpers";
-import { joiMessages, joiResolver } from "@/helpers/joi";
+import { joiMessages } from "@/helpers/joi";
 import useCart from "@/hooks/useCart";
+import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const schema = Joi.object({
@@ -17,34 +18,74 @@ const schema = Joi.object({
     .label("Correo electrónico"),
   address: Joi.string().required().label("Dirección"),
   phone: Joi.string().required().label("Teléfono"),
+  products: Joi.array()
+    .items(
+      Joi.object().keys({
+        id: Joi.string().label("id"),
+        quantity: Joi.number().label("Cantidad").min(1),
+        image: Joi.string().label("Imagen"),
+        name: Joi.string().label("Nombre"),
+        price: Joi.number().label("Precio"),
+        description: Joi.string().label("Descripción"),
+        productId: Joi.string().label("productId"),
+      })
+    )
+    .required()
+    .min(1)
+    .label("Productos"),
 }).messages(joiMessages);
 
 export const Cart = () => {
-  const { cart, getCartTotal, handleDeleteProduct, handleUpdateQuantity, handleCheckout, loading } =
-    useCart({});
+  const {
+    cart,
+    getCartTotal,
+    handleDeleteProduct,
+    handleUpdateQuantity,
+    handleCheckout,
+    loading,
+  } = useCart({});
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm({
-    resolver: async (data) => {
-      return joiResolver(schema, data);
+    resolver: joiResolver(schema),
+    values: {
+      name: "",
+      email: "",
+      address: "",
+      phone: "",
+      products: cart?.products?.map((p) => ({ ...p, productId: p.id })),
     },
   });
-  
-  const navigate = useNavigate();
+  const {
+    fields: products,
+    remove: removeProduct,
+    update: updateProduct,
+  } = useFieldArray({
+    control,
+    name: "products",
+  });
 
   const onDelete = (id?: string) => {
     handleDeleteProduct(id);
+    removeProduct(products.findIndex((product) => product.id === id));
   };
   const onChangeQuantity = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id?: string
+    event?: React.ChangeEvent<HTMLInputElement>,
+    id?: string,
+    index?: number
   ) => {
-    handleUpdateQuantity(id, Number(event.target.value));
+    handleUpdateQuantity(id, Number(event?.target.value));
+    updateProduct(index!, {
+      ...products[index!],
+      quantity: Number(event?.target.value),
+    });
   };
 
-  const onSubmit = async() => {
+  const onSubmit = async () => {
     await handleCheckout(cart);
     navigate("/");
   };
@@ -65,7 +106,7 @@ export const Cart = () => {
             label="Nombre"
             type="text"
             register={register}
-            errors={errors}
+            error={errors.name?.message}
           />
           <Input
             name="email"
@@ -73,7 +114,7 @@ export const Cart = () => {
             label="Correo electrónico"
             type="email"
             register={register}
-            errors={errors}
+            error={errors.email?.message}
           />
           <Input
             name="address"
@@ -81,7 +122,7 @@ export const Cart = () => {
             label="Dirección"
             type="text"
             register={register}
-            errors={errors}
+            error={errors.address?.message}
           />
           <Input
             name="phone"
@@ -89,13 +130,15 @@ export const Cart = () => {
             label="Teléfono"
             type="text"
             register={register}
-            errors={errors}
+            error={errors.phone?.message}
           />
         </form>
         <CartList
-          products={cart?.products}
+          products={products}
           onRemove={onDelete}
           onChangeQuantity={onChangeQuantity}
+          register={register}
+          errors={errors}
         />
         <div className="flex items-center justify-between text-xl font-bold mt-8 mb-2">
           <h2 className="text-xl">Total </h2>

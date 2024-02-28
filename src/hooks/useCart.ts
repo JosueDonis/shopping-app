@@ -42,7 +42,7 @@ export const useCart = ({product}: useCartProps) => {
 
   const handleAddCart = () => {
     const values = getValues();
-    dispatch(addProduct({ ...product, quantity: parseFloat(values.amount) }));
+    dispatch(addProduct({ ...product, id: crypto.randomUUID(), quantity: parseFloat(values.amount) }));
   };
 
   const handleDeleteProduct = (id?: string) => {

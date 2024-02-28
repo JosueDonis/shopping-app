@@ -4,13 +4,30 @@ import { X } from "lucide-react";
 import React from "react";
 import Input from "../atoms/Input";
 
-export type CartCardProps = CartProductType;
-export const CartCard: React.FC<
-  CartCardProps & {
-    onRemove: (id?: string) => void;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>, id?: string) => void;
-  }
-> = ({ id, name, price, image, quantity, onRemove, onChange }) => {
+export type CartCardProps = CartProductType & {
+  onRemove: (id?: string) => void;
+  onChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id?: string,
+    index?: number
+  ) => void;
+  index: number;
+  register?: any;
+  errors?: any;
+};
+export const CartCard: React.FC<CartCardProps> = ({
+  id,
+  name,
+  price,
+  image,
+  quantity,
+  onRemove,
+  onChange,
+  index,
+  register,
+  errors,
+  productId,
+}) => {
   return (
     <div key={id} className="flex gap-4 border-b border-base-200">
       <figure className="md:max-w-[200px] max-w-[80px] p-4 relative">
@@ -21,7 +38,7 @@ export const CartCard: React.FC<
         />
         <button
           className="btn btn-cancel btn-sm btn-circle absolute top-0 right-0"
-          onClick={() => onRemove(id)}
+          onClick={() => onRemove(productId)}
         >
           <X size={20} />
         </button>
@@ -33,11 +50,12 @@ export const CartCard: React.FC<
         </div>
         <Input
           class="md:w-[100px] w-[80px]"
-          name="quantity"
-          min={1}
+          name={`products[${index}].quantity`}
           value={quantity}
+          register={register}
+          error={errors?.quantity?.message}
           onChange={(e) => {
-            onChange(e, id);
+            onChange(e, productId, index);
           }}
         />
       </div>

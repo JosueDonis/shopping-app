@@ -3,6 +3,10 @@ import { Select } from "../atoms/Select";
 import { CATEGORIES, MODELS, SORTING_PRICE } from "@/const/products";
 import { SetStateAction, Dispatch } from "react";
 import { FilterType } from "@/types/product";
+import Joi from "joi";
+import { joiMessages } from "@/helpers/joi";
+import { useForm } from "react-hook-form";
+import { joiResolver } from "@hookform/resolvers/joi";
 export type FilterModalProps = {
   id?: string;
   handleApplyFilters?: () => void;
@@ -13,22 +17,40 @@ export type FilterModalProps = {
   setSortPrice?: Dispatch<SetStateAction<string>>;
 };
 
+const schema = Joi.object({
+  name: Joi.string().label("Nombre").empty(""),
+  category: Joi.string().label("Categoría").empty(""),
+  price: Joi.string().label("Precio"),
+}).messages(joiMessages);
+
 export const FilterModal: React.FC<FilterModalProps> = ({
   id,
-  handleApplyFilters,
   handleRemoveFilters,
   filters,
   setFilters,
   sortPrice,
   setSortPrice,
 }) => {
-  const applyFilters = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    handleApplyFilters?.();
-    const modal = document.getElementById(id || "") as HTMLDialogElement | null;
-    if (modal) {
-      modal.close();
-    }
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm({
+    resolver: joiResolver(schema),
+    values: {
+      name: filters?.name,
+      category: filters?.category,
+      price: sortPrice,
+    },
+  });
+
+  const onSubmit = () => {
+    const { name, category, price } = getValues();
+    setFilters?.((prev) => ({ ...prev, name, category }));
+    setSortPrice?.(price!);
+    const modal = document.getElementById(id!) as HTMLDialogElement;
+    modal?.close();
   };
 
   const resetFilters = () => {
@@ -43,24 +65,20 @@ export const FilterModal: React.FC<FilterModalProps> = ({
           </button>
         </form>
         <h3 className="font-bold text-lg">Filtrar productos</h3>
-        <form className="pt-8" onSubmit={applyFilters}>
+        <form className="pt-8" onSubmit={handleSubmit(onSubmit)}>
           <Select
             label="Marca"
             name="name"
             options={MODELS}
-            value={filters?.name}
-            onChange={(e) => {
-              setFilters?.((prev) => ({ ...prev, name: e.target.value }));
-            }}
+            register={register}
+            error={errors?.name?.message}
           />
           <Select
             label="Categoría"
             name="category"
             options={CATEGORIES}
-            value={filters?.category}
-            onChange={(e) => {
-              setFilters?.((prev) => ({ ...prev, category: e.target.value }));
-            }}
+            register={register}
+            error={errors?.category?.message}
           />
           <div className="flex flex-col font-bold mt-4">
             <h3>Ordenar por</h3>
@@ -68,10 +86,8 @@ export const FilterModal: React.FC<FilterModalProps> = ({
               label="Precio"
               name="price"
               options={SORTING_PRICE}
-              value={sortPrice}
-              onChange={(e) => {
-                setSortPrice?.(e.target.value);
-              }}
+              register={register}
+              error={errors?.price?.message}
             />
           </div>
           <div className="flex justify-end mt-4 gap-4">

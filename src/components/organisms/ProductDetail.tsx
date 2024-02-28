@@ -71,7 +71,7 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
             label="Cantidad"
             type="number"
             register={register}
-            errors={errors}
+            error={errors?.amount?.message}
             class="max-w-[200px]"
           />
           <p className="text-sm text-accent-content/70">

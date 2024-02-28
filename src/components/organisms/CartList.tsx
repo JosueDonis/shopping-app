@@ -4,18 +4,33 @@ import { CartCard } from "../molecules/CartCard";
 type CartListProps = {
   products?: CartProductType[];
   onRemove?: (id?: string) => void;
-  onChangeQuantity?: (event: React.ChangeEvent<HTMLInputElement>, id?: string) => void;
+  register?: any;
+  errors?: any;
+  onChangeQuantity?: (event?: React.ChangeEvent<HTMLInputElement>, id?: string, index?: number) => void;
 };
 
-export const CartList: React.FC<CartListProps> = ({ products, onRemove, onChangeQuantity}) => {
-
+export const CartList: React.FC<CartListProps> = ({
+  products,
+  onRemove,
+  onChangeQuantity,
+  register,
+  errors,
+}) => {
   return (
     <div className="flex flex-col gap-4 mt-8">
       <h2 className="text-xl font-bold">Productos</h2>
-      {products?.map?.((product: CartProductType) => (
-        <CartCard key={product.id} {...product} onRemove={onRemove!} onChange={onChangeQuantity!} />
+      {products?.map?.((product: CartProductType, index: number) => (
+        <CartCard
+          productId={""}
+          key={product.id}
+          {...product}
+          onRemove={onRemove!}
+          register={register}
+          onChange={onChangeQuantity!}
+          index={index}
+          errors={errors.products?.[index]}
+        />
       ))}
-      
     </div>
   );
 };

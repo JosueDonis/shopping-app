@@ -6,7 +6,7 @@ export type SelectProps = {
   required?: boolean;
   register?: any;
   label?: string;
-  errors?: Record<string, any>;
+  error?: string;
   value?: string;
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options?: Record<string, string>[];
@@ -18,7 +18,7 @@ export const Select: React.FC<SelectProps> = ({
   required,
   register,
   label,
-  errors,
+  error,
   value,
   onChange,
   children,
@@ -37,9 +37,11 @@ export const Select: React.FC<SelectProps> = ({
           required={required}
           value={value}
           onChange={onChange}
-          >
+        >
           {children}
-          <option value={""} disabled>Selecione una opción</option>
+          <option value={""} disabled>
+            Selecione una opción
+          </option>
           {options?.map((option: Record<string, string>) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -50,13 +52,14 @@ export const Select: React.FC<SelectProps> = ({
         <select
           id={id}
           className="select select-bordered"
-          required={required}
           value={value}
-          {...register(name as string, { required })}
+          {...register(name as string)}
           defaultValue=""
         >
           {children}
-          <option value="" disabled>Selecione una opción</option>
+          <option value="" disabled>
+            Selecione una opción
+          </option>
           {options?.map((option: Record<string, string>) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -65,11 +68,7 @@ export const Select: React.FC<SelectProps> = ({
         </select>
       )}
       <div className="label">
-        {errors?.[name as string] && (
-          <span className="label-text-alt text-red-600">
-            {errors[name as string]?.message}
-          </span>
-        )}
+        {error && <span className="label-text-alt text-red-600">{error}</span>}
       </div>
     </label>
   );
