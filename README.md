@@ -23,10 +23,10 @@ This project was carried out for a test, it was developed using the React librar
 
 ## Prerequisites 🌱
 
+ - [Bun.sh](https://bun.sh/) 
  - [Node v18.16.0](https://nodejs.org/en/) 
  - [Daisyui](https://daisyui.com/)
  - [Tailwindcss](https://tailwindcss.com/docs/installation)
- - [Capacitorjs](https://capacitorjs.com/docs/getting-started)
 
 ##  Installation 🤖
 
@@ -36,9 +36,9 @@ This project was carried out for a test, it was developed using the React librar
 
 > cd shopping-app
 
-> npm install
+> npm install or bun install
 
-> npm run dev
+> npm run dev or bun run dev
 
 ```
   
