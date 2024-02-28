@@ -1,6 +1,11 @@
 # shopping app 🛍️
-
-shopping app: Tienda online
+This project was carried out for a test, it was developed using the React library, and it also includes the following:
+1. Typescript
+2. Redux toolkit
+3. React hook form and Joi
+4. Tailwindcss
+5. Daisyui
+6. Vercel
 
 ## Table of contents  📌
 
