@@ -1,4 +1,4 @@
-# shopping app 🛍️
+# Shopping app 🛍️
 This project was carried out for a test, it was developed using the React library, and it also includes the following:
 1. Typescript
 2. Redux toolkit
