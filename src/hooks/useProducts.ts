@@ -81,9 +81,10 @@ export const useProducts = () => {
   const filterByValue = (products?: ProductType[]) => {
     return products?.filter((product: any) => {
       return Object.keys(filters).every((key) => {
+        const value = filters[key as keyof FilterType];
         return String(product[key] || "")
           .toLowerCase()
-          .includes(String(filters[key]).toLowerCase());
+          .includes(String(value).toLowerCase());
       });
     });
   }
@@ -96,9 +97,9 @@ export const useProducts = () => {
   const onSortPrice = (products: ProductType[]) => {
     const data = [...products].sort((a, b) => {
       if (sortPrice === "ASC") {
-        return a.price - b.price;
+        return( a?.price || 0) - (b?.price || 0);
       } else {
-        return b.price - a.price;
+        return (b?.price || 0) - (a?.price || 0);
       }
     });
     return data;

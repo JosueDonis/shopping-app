@@ -13,7 +13,7 @@ shopping app: Tienda online
 ## Branches
 |Branch|URL  |
 |--|--|
-| Main | https://shopping-app-d9tm.vercel.app/ |
+| Main | https://shopping-app-brown-one.vercel.app/ |
 | Development| 👇  |
 
 ## Prerequisites 🌱
