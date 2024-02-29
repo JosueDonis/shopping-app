@@ -5,7 +5,7 @@ import React from "react";
 import Input from "../atoms/Input";
 
 export type CartCardProps = CartProductType & {
-  onRemove: (id?: string) => void;
+  onRemove?: (id?: string) => void;
   onChangeQuantity?: (
     value: string | number | undefined,
     id?: string,
@@ -29,7 +29,7 @@ export const CartCard: React.FC<CartCardProps> = ({
   productId,
 }) => {
   return (
-    <div key={id} className="flex gap-4 border-b border-base-200">
+    <li key={id} className="flex gap-4 border-b border-base-200">
       <figure className="md:max-w-[200px] max-w-[80px] p-4 relative">
         <img
           className="w-full h-full aspect-auto object-cover"
@@ -60,6 +60,6 @@ export const CartCard: React.FC<CartCardProps> = ({
           }}
         />
       </div>
-    </div>
+    </li>
   );
 };

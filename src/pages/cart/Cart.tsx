@@ -72,7 +72,7 @@ export const Cart = () => {
 
   const onDelete = (id?: string) => {
     handleDeleteProduct(id);
-    removeProduct(products.findIndex((product) => product.id === id));
+    removeProduct(products.findIndex((product) => product.productId === id));
   };
   const onChangeQuantity = (
     value?: string | number | undefined,

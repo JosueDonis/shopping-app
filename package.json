@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^4.30.6",
     "@clerk/localizations": "^1.26.16",
+    "@formkit/auto-animate": "^0.8.1",
     "@hookform/resolvers": "^3.3.4",
     "@reduxjs/toolkit": "^2.2.1",
     "@tailwindcss/typography": "^0.5.10",
