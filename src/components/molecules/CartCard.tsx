@@ -28,8 +28,8 @@ export const CartCard: React.FC<CartCardProps> = ({
   errors,
 }) => {
   return (
-    <li key={id} className="flex gap-4 border-b border-base-200">
-      <figure className="md:max-w-[200px] max-w-[80px] p-4 relative">
+    <li key={id} className="flex gap-4 border-b border-base-200 min-h-[120px] mb-4 items-center">
+      <figure className="md:w-[200px] w-full p-4 relative">
         <img
           className="w-full h-full aspect-auto object-cover"
           src={image}
@@ -48,7 +48,7 @@ export const CartCard: React.FC<CartCardProps> = ({
           <span>{formatMoney(price)}</span>
         </div>
         <Input
-          class="md:w-[100px] w-[80px]"
+          class="!w-[100px] self-end md:self-start"
           name={`products[${index}].quantity`}
           value={quantity}
           register={register}
