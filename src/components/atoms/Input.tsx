@@ -13,6 +13,8 @@ export type InputProps = {
   maxLenght?: number;
   class?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
+  onKeyUp?: (e: React.ChangeEvent<HTMLInputElement> | React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
 export const Input: React.FC<InputProps> = ({
@@ -29,8 +31,10 @@ export const Input: React.FC<InputProps> = ({
   register,
   maxLenght,
   class: className,
+  onBlur,
+  onKeyUp,
 }) => {
-  const { onChange } = register(name as string, { required });
+  const { onChange } = register?.(name as string, { required }) ?? {};
   return (
     <label className={`form-control w-full ${className}`}>
       {label && <span className="label">{label}</span>}
@@ -53,12 +57,12 @@ export const Input: React.FC<InputProps> = ({
           className="input input-bordered w-full"
           type={type}
           placeholder={placeholder}
-          onChange={(e) => {
-            onChange(e);
-            if (handleChange) {
-              handleChange(e);
-            }
+          onChange={async(e) => {
+            handleChange?.(e);
+            onChange?.(e);
           }}
+          onBlur={onBlur}
+          onKeyUp={onKeyUp}
         />
       )}
       <div className="label">

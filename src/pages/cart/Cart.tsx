@@ -51,6 +51,7 @@ export const Cart = () => {
     handleSubmit,
     formState: { errors },
     control,
+    getValues,
   } = useForm({
     resolver: joiResolver(schema),
     values: {
@@ -64,7 +65,6 @@ export const Cart = () => {
   const {
     fields: products,
     remove: removeProduct,
-    update: updateProduct,
   } = useFieldArray({
     control,
     name: "products",
@@ -75,18 +75,14 @@ export const Cart = () => {
     removeProduct(products.findIndex((product) => product.id === id));
   };
   const onChangeQuantity = (
-    event?: React.ChangeEvent<HTMLInputElement>,
+    value?: string | number | undefined,
     id?: string,
-    index?: number
   ) => {
-    handleUpdateQuantity(id, Number(event?.target.value));
-    updateProduct(index!, {
-      ...products[index!],
-      quantity: Number(event?.target.value),
-    });
+    handleUpdateQuantity(id, Number(value));
   };
 
   const onSubmit = async () => {
+    console.log(getValues())
     await handleCheckout(cart);
     navigate("/");
   };

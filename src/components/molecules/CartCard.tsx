@@ -6,8 +6,8 @@ import Input from "../atoms/Input";
 
 export type CartCardProps = CartProductType & {
   onRemove: (id?: string) => void;
-  onChange: (
-    event: React.ChangeEvent<HTMLInputElement>,
+  onChangeQuantity?: (
+    value: string | number | undefined,
     id?: string,
     index?: number
   ) => void;
@@ -22,7 +22,7 @@ export const CartCard: React.FC<CartCardProps> = ({
   image,
   quantity,
   onRemove,
-  onChange,
+  onChangeQuantity,
   index,
   register,
   errors,
@@ -54,8 +54,9 @@ export const CartCard: React.FC<CartCardProps> = ({
           value={quantity}
           register={register}
           error={errors?.quantity?.message}
-          onChange={(e) => {
-            onChange(e, productId, index);
+          type="number"
+          onBlur={(e) => {
+            onChangeQuantity?.((e.target as HTMLInputElement).value, productId, index);
           }}
         />
       </div>

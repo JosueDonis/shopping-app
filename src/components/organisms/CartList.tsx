@@ -6,7 +6,7 @@ type CartListProps = {
   onRemove?: (id?: string) => void;
   register?: any;
   errors?: any;
-  onChangeQuantity?: (event?: React.ChangeEvent<HTMLInputElement>, id?: string, index?: number) => void;
+  onChangeQuantity?: (value?: string | number | undefined, id?: string, index?: number) => void;
 };
 
 export const CartList: React.FC<CartListProps> = ({
@@ -26,7 +26,7 @@ export const CartList: React.FC<CartListProps> = ({
           {...product}
           onRemove={onRemove!}
           register={register}
-          onChange={onChangeQuantity!}
+          onChangeQuantity={onChangeQuantity}
           index={index}
           errors={errors.products?.[index]}
         />
