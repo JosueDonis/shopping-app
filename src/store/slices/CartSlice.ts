@@ -35,9 +35,9 @@ export const cartSlice = createSlice({
     },
     removeProduct: (state, action) => {
       const id = action.payload as string;
-      state.cart.products = state.cart?.products?.filter(
+      state.cart.products = [...state.cart?.products?.filter(
         (product) => product?.id !== id
-      );
+      ) ?? []];
       localStorage.setItem("shopping-cart", JSON.stringify(state.cart));
     },
     updateProduct: (state, action) => {

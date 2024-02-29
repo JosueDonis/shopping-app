@@ -7,7 +7,7 @@ import { joiMessages } from "@/helpers/joi";
 import useCart from "@/hooks/useCart";
 import { joiResolver } from "@hookform/resolvers/joi";
 import Joi from "joi";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 const schema = Joi.object({
@@ -50,8 +50,6 @@ export const Cart = () => {
     register,
     handleSubmit,
     formState: { errors },
-    control,
-    getValues,
   } = useForm({
     resolver: joiResolver(schema),
     values: {
@@ -59,20 +57,12 @@ export const Cart = () => {
       email: "",
       address: "",
       phone: "",
-      products: cart?.products?.map((p) => ({ ...p, productId: p.id })),
+      products: [...cart?.products?.map((p) => ({ ...p, productId: p.id })) ?? []],
     },
-  });
-  const {
-    fields: products,
-    remove: removeProduct,
-  } = useFieldArray({
-    control,
-    name: "products",
   });
 
   const onDelete = (id?: string) => {
     handleDeleteProduct(id);
-    removeProduct(products.findIndex((product) => product.productId === id));
   };
   const onChangeQuantity = (
     value?: string | number | undefined,
@@ -82,7 +72,6 @@ export const Cart = () => {
   };
 
   const onSubmit = async () => {
-    console.log(getValues())
     await handleCheckout(cart);
     navigate("/");
   };
@@ -132,7 +121,7 @@ export const Cart = () => {
           />
         </form>
         <CartList
-          products={products}
+          products={cart?.products}
           onRemove={onDelete}
           onChangeQuantity={onChangeQuantity}
           register={register}

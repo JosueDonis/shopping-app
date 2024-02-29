@@ -26,7 +26,6 @@ export const CartCard: React.FC<CartCardProps> = ({
   index,
   register,
   errors,
-  productId,
 }) => {
   return (
     <li key={id} className="flex gap-4 border-b border-base-200">
@@ -38,7 +37,7 @@ export const CartCard: React.FC<CartCardProps> = ({
         />
         <button
           className="btn btn-cancel btn-sm btn-circle absolute top-0 right-0"
-          onClick={() => onRemove?.(productId)}
+          onClick={() => onRemove?.(id)}
         >
           <X size={20} />
         </button>
@@ -56,7 +55,7 @@ export const CartCard: React.FC<CartCardProps> = ({
           error={errors?.quantity?.message}
           type="number"
           onBlur={(e) => {
-            onChangeQuantity?.((e.target as HTMLInputElement).value, productId, index);
+            onChangeQuantity?.((e.target as HTMLInputElement).value, id, index);
           }}
         />
       </div>

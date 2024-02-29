@@ -1,10 +1,11 @@
 import { CartProductType } from "@/types/cart";
 import { CartCard } from "../molecules/CartCard";
-import { useAutoAnimate } from "@formkit/auto-animate/react";
+import autoAnimate from '@formkit/auto-animate'
+import { useEffect, useRef } from "react";
 
 type CartListProps = {
   products?: CartProductType[];
-  onRemove?: (id?: string) => void;
+  onRemove?: (id?: string, index?: number) => void;
   register?: any;
   errors?: any;
   onChangeQuantity?: (
@@ -21,20 +22,20 @@ export const CartList: React.FC<CartListProps> = ({
   register,
   errors,
 }) => {
-  const [cartList] = useAutoAnimate({
-  });
+  const cartRef = useRef<HTMLUListElement | null>(null);
+  useEffect(() => {
+    cartRef.current && autoAnimate(cartRef.current)
+  }, [cartRef])
   return (
     <div className="flex flex-col gap-4 mt-8">
       <h2 className="text-xl font-bold">Productos</h2>
-      <ul ref={cartList}>
+      <ul ref={cartRef}>
         {products?.map?.((product: CartProductType, index: number) => (
           <CartCard
             productId={""}
             key={product.id}
             {...product}
-            onRemove={() => {
-              onRemove?.(product.productId);
-            }}
+            onRemove={onRemove}
             register={register}
             onChangeQuantity={onChangeQuantity}
             index={index}
