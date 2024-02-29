@@ -24,12 +24,13 @@ export const RoutesCustom = () => {
       element: <Login />,
     },
     {
-      path: '*',
-      element: <Navigate to="/login"  />,
+      path: "*",
+      element: <Navigate to="/login" />,
     },
   ]);
   return (
     <ClerkProvider
+      navigate={router.navigate}
       localization={esES}
       publishableKey="pk_test_dG9waWNhbC1zd2luZS01OS5jbGVyay5hY2NvdW50cy5kZXYk"
     >
