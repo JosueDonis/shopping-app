@@ -3,7 +3,12 @@ import { useAppDispatch, useAppSelector } from "./hook";
 import { joiMessages, joiResolver } from "@/helpers/joi";
 import { useForm } from "react-hook-form";
 import { CartInfoType, CartProductType, CartType } from "@/types/cart";
-import { addProduct, removeCart, removeProduct, updateQuantityProduct } from "@/store/slices/CartSlice";
+import {
+  addProduct,
+  removeCart,
+  removeProduct,
+  updateQuantityProduct,
+} from "@/store/slices/CartSlice";
 import { ProductType } from "@/types/product";
 import { useState } from "react";
 
@@ -12,16 +17,16 @@ const schema = Joi.object({
 }).messages(joiMessages);
 
 export type useCartProps = {
-    product?: ProductType;
-    info?: CartInfoType;
-}
-export const useCart = ({product}: useCartProps) => {
+  product?: ProductType;
+  info?: CartInfoType;
+};
+export const useCart = ({ product }: useCartProps) => {
   const dispatch = useAppDispatch();
   const { cart } = useAppSelector((state) => state.cart);
   const {
     register,
     handleSubmit,
-    formState: { errors = {} as Record<string, any>},
+    formState: { errors = {} as Record<string, any> },
     setValue,
     getValues,
     control,
@@ -34,46 +39,57 @@ export const useCart = ({product}: useCartProps) => {
   const [error, setError] = useState(false);
 
   const getCartTotal = () => {
-    const total = cart?.products?.length ? cart.products?.reduce((acc, product: CartProductType) => {
-      return acc + ((product?.price || 0) * product?.quantity);
-    }, 0) : 0;
+    const total = cart?.products?.length
+      ? cart.products?.reduce((acc, product: CartProductType) => {
+          return acc + (product?.price || 0) * product?.quantity;
+        }, 0)
+      : 0;
     return total;
-  }
+  };
 
   const handleAddCart = () => {
     const values = getValues();
-    dispatch(addProduct({ ...product, id: crypto.randomUUID(), quantity: parseFloat(values.amount) }));
+    dispatch(
+      addProduct({
+        ...product,
+        id: crypto.randomUUID(),
+        quantity: parseFloat(values.amount),
+      })
+    );
   };
 
   const handleDeleteProduct = (id?: string) => {
     dispatch(removeProduct(id));
-  }
+  };
 
   const handleUpdateQuantity = (id?: string, quantity?: number) => {
     dispatch(updateQuantityProduct({ id, quantity }));
-  }
+  };
 
   const handleCheckout = async (cart: CartType) => {
     try {
       setLoading(true);
-      const response = await fetch("https://shopping-api-nine.vercel.app/checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(cart),
-      })
+      const response = await fetch(
+        "https://shopping-api-nine.vercel.app/checkout",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cart),
+        }
+      );
       const data = await response.json();
       dispatch(removeCart());
       return data;
     } catch (error) {
-      setError(true)
+      setError(true);
     } finally {
       setTimeout(() => {
-        setLoading(false)
+        setLoading(false);
       }, 2000);
     }
-  }
+  };
 
   return {
     cart,
