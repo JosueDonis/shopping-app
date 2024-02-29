@@ -2,6 +2,7 @@ import { FilterType, ProductType } from "@/types/product";
 import { ProductCard } from "./ProductCard";
 import { GalleryVerticalEnd } from "lucide-react";
 import FilterProducts from "./FilterProducts";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export type ProductCardProps = {
   class?: string;
@@ -23,8 +24,10 @@ export const ProductsList: React.FC<ProductCardProps> = ({
   filters,
   sortPrice,
 }) => {
+  const [productsRef] = useAutoAnimate()
   return (
     <section
+      ref={productsRef}
       className={`mt-12 grid grid-cols-[repeat(auto-fill,_minmax(280px,_1fr))] gap-3 gap-y-8 ${className}`}
     >
       {loading && !error ? (
@@ -32,12 +35,12 @@ export const ProductsList: React.FC<ProductCardProps> = ({
           <ProductCard key={index} loading />
         ))
       ) : !loading && !error && products?.length ? (
-        <FilterProducts
-          search={search}
-          products={products}
-          sortPrice={sortPrice}
-          filters={filters}
-        />
+          <FilterProducts
+            search={search}
+            products={products}
+            sortPrice={sortPrice}
+            filters={filters}
+          />
       ) : null}
       {!loading && error && (
         <div className="flex h-[60vh] col-span-3 flex-col p-8 gap-10 bg-base-100 shadow border border-base-300 rounded-xl items-center justify-center">
