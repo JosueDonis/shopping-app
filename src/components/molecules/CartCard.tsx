@@ -38,7 +38,7 @@ export const CartCard: React.FC<CartCardProps> = ({
         />
         <button
           className="btn btn-cancel btn-sm btn-circle absolute top-0 right-0"
-          onClick={() => onRemove(productId)}
+          onClick={() => onRemove?.(productId)}
         >
           <X size={20} />
         </button>
