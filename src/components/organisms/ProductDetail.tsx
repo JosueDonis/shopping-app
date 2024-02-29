@@ -19,9 +19,9 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
   });
 
   return loading ? (
-    <div className="card lg:card-side w-full bg-base-100 shadow border border-base-300">
-      <figure className="md:w-[300px] w-full  md:max-w-[300px] max-w-full">
-        <div className="skeleton w-full md:h-[300px] h-[200px] aspect-auto rounded-none" />
+    <div className="card md:card-side md:h-[400px] h-full w-full bg-base-100 shadow border border-base-300">
+      <figure className="">
+        <div className="skeleton md:w-[400px] w-full h-[400px] rounded-none" />
       </figure>
       <div className="card-body">
         <div className="skeleton w-3/4 h-6 mb-4 rounded-none" />
@@ -49,10 +49,10 @@ export const ProductDetail: React.FC<ProductDetailProps> = ({
       </div>
     </div>
   ) : (
-    <div className="card lg:card-side  w-full bg-base-100 shadow border border-base-300 rounded-xl">
-      <figure className="md:min-w-[300px] min-w-full md:max-w-[300px]">
+    <div className="card md:card-side w-full md:h-[400px] h-full bg-base-100 shadow border border-base-300 rounded-xl">
+      <figure className="">
         <img
-          className="w-full h-full object-cover aspect-auto"
+          className="w-full h-full object-cover aspect-video"
           src={product?.image || "https://via.placeholder.com/300"}
           alt="Shoes"
           onError={(e) => {
