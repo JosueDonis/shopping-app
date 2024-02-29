@@ -1,7 +1,6 @@
 import { CartProductType } from "@/types/cart";
 import { CartCard } from "../molecules/CartCard";
-import autoAnimate from '@formkit/auto-animate'
-import { useEffect, useRef } from "react";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 type CartListProps = {
   products?: CartProductType[];
@@ -22,10 +21,7 @@ export const CartList: React.FC<CartListProps> = ({
   register,
   errors,
 }) => {
-  const cartRef = useRef<HTMLUListElement | null>(null);
-  useEffect(() => {
-    cartRef.current && autoAnimate(cartRef.current)
-  }, [cartRef])
+  const [cartRef] = useAutoAnimate()
   return (
     <div className="flex flex-col gap-4 mt-8">
       <h2 className="text-xl font-bold">Productos</h2>
