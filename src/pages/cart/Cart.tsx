@@ -97,7 +97,7 @@ export const Cart = () => {
           />
           <Input
             name="email"
-            placeholder="Ingres correo electrónico"
+            placeholder="Ingrese correo electrónico"
             label="Correo electrónico"
             type="email"
             register={register}
